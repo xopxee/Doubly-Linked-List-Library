@@ -6,8 +6,8 @@ int main(){
 	Dll list;
 	init_dll(&list);
 	
-	for(int i = 10; i >= 1; i--){
-		shift_dll(&list, i*7);
+	for(int i = 1; i <= 10; i++){
+		push_dll(&list, i*7);
 	}
 	
 	print_dll(list);
