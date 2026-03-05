@@ -11,20 +11,20 @@ void init_dll(Dll* plist){
 
 void delete_dll(Dll* plist){
 	
-	//No need to anything.
-	if(is_empty(*plist)){
+	//No need to do anything.
+	if(is_empty_dll(*plist)){
 		return;
 	}
 	
-	node* aux;
+	dl_node* aux;
 	
-	//Iterates through all nodes 'til it finds the last.
+	//Iterates through all dl_nodes 'til it finds the last.
 	for(aux = plist->start; aux != NULL; ){
 		
-		//Stores the address of the current node.
-		node* deleted = aux;
+		//Stores the address of the current dl_node.
+		dl_node* deleted = aux;
 		
-		//Jumps to the next node before the current gets freed.
+		//Jumps to the next dl_node before the current gets freed.
 		aux = aux->next;
 		
 		free(deleted);
@@ -33,14 +33,14 @@ void delete_dll(Dll* plist){
 	init_dll(plist);
 }
 
-bool is_empty(Dll list){
+bool is_empty_dll(Dll list){
 	return (list.start == NULL)? true : false;
 }
 
 void shift_dll(Dll* plist, int data){
 	
-	//Creates the new node.
-	node* new = (node*)malloc(sizeof(node));
+	//Creates the new dl_node.
+	dl_node* new = (dl_node*)malloc(sizeof(dl_node));
 	
 	if(new == NULL){
 		perror("Failed to allocate memory!");
@@ -50,35 +50,35 @@ void shift_dll(Dll* plist, int data){
 	//Fills in the data
 	new->data = data;
 	
-	if(is_empty(*plist)){
+	if(is_empty_dll(*plist)){
 		
-		//There's no previous node nor next.
+		//There's no previous dl_node nor next.
 		new->prev = NULL;
 		new->next = NULL;
 		
-		//new node is the first node and also the last.
+		//new dl_node is the first dl_node and also the last.
 		plist->start = new;
 		plist->end = new;
 		
 		return;
 	}
 	
-	new->prev = NULL;			//Since it's the first node, there's no previous.
+	new->prev = NULL;			//Since it's the first dl_node, there's no previous.
 	new->next = plist->start;	//next now points to the list's head.
-	new->next->prev = new;		//The old first node also points to new.
+	new->next->prev = new;		//The old first dl_node also points to new.
 	plist->start = new;			//new is now the head of the list.
 }
 
 void push_dll(Dll* plist, int data){
 	
 	//shift function can handle it identically as push would.
-	if(is_empty(*plist)){
+	if(is_empty_dll(*plist)){
 		shift_dll(plist, data);
 		return;
 	}
 	
-	//Creates the new node.
-	node* new = (node*)malloc(sizeof(node));
+	//Creates the new dl_node.
+	dl_node* new = (dl_node*)malloc(sizeof(dl_node));
 	
 	if(new == NULL){
 		perror("Failed to allocate memory!");
@@ -88,22 +88,22 @@ void push_dll(Dll* plist, int data){
 	//Fills in the data.
 	new->data = data;
 	
-	new->next = NULL;			//new is the last node, therefore it has no next
+	new->next = NULL;			//new is the last dl_node, therefore it has no next
 	new->prev = plist->end;		//prev now points to the list's tail.
-	new->prev->next = new;		//the old last node also points to new.
+	new->prev->next = new;		//the old last dl_node also points to new.
 	plist->end = new;			//new is now the tail of the list.
 }
 
 void print_dll(Dll list){
 	
-	if(is_empty(list)){
+	if(is_empty_dll(list)){
 		printf("{ empty }\n");
 		return;
 	}
 	
-	//Iterates through all non-null nodes and prints its data.
+	//Iterates through all non-null dl_nodes and prints its data.
 	printf("{ ");
-	for(node* aux = list.start; aux != NULL; aux = aux->next){
+	for(dl_node* aux = list.start; aux != NULL; aux = aux->next){
 		printf("%d ", aux->data);
 	}
 	printf("}\n");
@@ -111,14 +111,14 @@ void print_dll(Dll list){
 
 void print_dll_backwards(Dll list){
 	
-	if(is_empty(list)){
+	if(is_empty_dll(list)){
 		printf("{ empty }\n");
 		return;
 	}
 	
-	//Iterates backwards through all non-null nodes and prints its data.
+	//Iterates backwards through all non-null dl_nodes and prints its data.
 	printf("{ ");
-	for(node* aux = list.end; aux != NULL; aux = aux->prev){
+	for(dl_node* aux = list.end; aux != NULL; aux = aux->prev){
 		printf("%d ", aux->data);
 	}
 	printf("}\n");
