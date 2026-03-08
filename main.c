@@ -4,10 +4,10 @@
 int main(){
 	
 	Dll list;
-	init_dll(&list);
+	init_dll(&list, CHAR);
 	
-	for(int i = 1; i <= 10; i++){
-		push_dll(&list, i*7);
+	for(char c = 'a'; c <= 'z'; c++){
+		push_dll(&list, &c);
 	}
 	
 	print_dll(list);
